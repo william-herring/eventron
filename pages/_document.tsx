@@ -5,7 +5,6 @@ const Document: React.FC = () => {
     return (
         <Html>
             <Head>
-               <title>Eventron</title>
             </Head>
             <body>
             <Main />
