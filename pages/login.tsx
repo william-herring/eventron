@@ -1,16 +1,18 @@
 import type { GetServerSideProps, NextPage } from 'next'
-import ActionButton from "../components/buttons/ActionButton";
 import Head from 'next/head';
-import { getProviders } from 'next-auth/react';
+import { ClientSafeProvider, getProviders, LiteralUnion, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { BuiltInProviderType } from 'next-auth/providers';
 
 export const getServerSideProps: GetServerSideProps = async () => {
     return { props: { providers: await getProviders() } }
 }
 
-const Login: NextPage = () => {
+const Login: NextPage<{ providers: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> }> = (props) => {
   const { query } = useRouter()
+
+  console.log(query.callbackUrl?.toString())
 
   return (
     <div>
@@ -22,11 +24,15 @@ const Login: NextPage = () => {
             <div className='flex-col flex items-center text-center'>
                 <h1 className='text-center font-bold text-4xl inline'>Log in to <p className='text-blue-700 inline'>Eventron</p></h1>
                 <div className='p-6 space-y-2'>
-                    <button className='flex flex-row items-center space-x-3 text-blue-700 text-xl font-medium'>
+                    <button className='flex flex-row items-center space-x-3 text-blue-700 text-xl font-medium' onClick={() => signIn(Object.values(props.providers)[0].id, {
+                                callbackUrl: `/account-redirect?redirectUrl=${query.callbackUrl?.toString()}`,
+                                })}>
                         <svg width="48px" height="48px" stroke-width="2.01" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M15.547 8.303A5.148 5.148 0 0012.11 7C9.287 7 7 9.239 7 12s2.287 5 5.109 5c3.47 0 4.751-2.57 4.891-4.583h-4.159" stroke="#1d4ed8" stroke-width="2.01"></path><path d="M21 8v8a5 5 0 01-5 5H8a5 5 0 01-5-5V8a5 5 0 015-5h8a5 5 0 015 5z" stroke="#1d4ed8" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                         <p>Continue with Google</p>
                     </button>
-                    <button className='flex flex-row items-center space-x-3 text-blue-700 text-xl font-medium'>
+                    <button className='flex flex-row items-center space-x-3 text-blue-700 text-xl font-medium' onClick={() => signIn(Object.values(props.providers)[1].id, {
+                                callbackUrl: `/account-redirect?redirectUrl=${query.callbackUrl?.toString()}`,
+                                })}>
                         <svg width="48px" height="48px" stroke-width="2.01" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M21 8v8a5 5 0 01-5 5H8a5 5 0 01-5-5V8a5 5 0 015-5h8a5 5 0 015 5z" stroke="#1d4ed8" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 21v-9c0-2.188.5-4 4-4M9 13h6" stroke="#1d4ed8" stroke-width="2.01" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                         <p>Continue with Facebook</p>
                     </button>
