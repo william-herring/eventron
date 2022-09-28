@@ -3,9 +3,27 @@ import ActionButton from "../components/buttons/ActionButton";
 import Link from "next/link";
 import Image from "next/image";
 import Head from 'next/head';
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
+import { useRouter } from 'next/router';
 
 const Home: NextPage = () => {
+  const { data: session, status } = useSession()
+  const router = useRouter()
+
+  if (status === "loading") {
+    return <div className='flex w-screen h-screen justify-center items-center'>
+            <Image width={80} height={80} src='/loading_spinner.svg' className='animate-spin' />
+        </div>
+  }
+
+  if (status === "authenticated") {
+    router.replace('/dashboard')
+  }
+
+  if (status != "unauthenticated") {
+    return <div></div>
+  }
+
   return (
       <div>
           <Head>
@@ -23,7 +41,7 @@ const Home: NextPage = () => {
                   <p>130 Groups</p>
                   <p>1200 Events</p>
               </div>
-              <ActionButton onClick={() => window.location.replace('/login')} glow={false}>Get started</ActionButton>
+              <ActionButton onClick={() => signIn()} glow={false}>Get started</ActionButton>
           </div>
 
           <div className='flex justify-center m-6 space-x-6'>
