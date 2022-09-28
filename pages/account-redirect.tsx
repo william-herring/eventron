@@ -43,7 +43,7 @@ const AccountRedirect: NextPage<AccountRedirectProps | null> = (props) => {
 
     return (
         <div>
-            {!session? <p>Did you mean to go to the <a href='/login' className='text-blue-500 font-semibold'>log in page</a>?</p> : <p>Redirect not working? Try <a href={'' + redirectUrl} className='text-blue-500 font-semibold'>this link</a>.</p>}
+            {!session? <p>Did you mean to go to the <a href='/login' className='text-blue-700 font-semibold'>log in page</a>?</p> : <p>Redirect not working? Try <a href={'' + redirectUrl} className='text-blue-500 font-semibold'>this link</a>.</p>}
         </div>
     )
 }

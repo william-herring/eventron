@@ -23,7 +23,7 @@ const Home: NextPage = () => {
                   <p>130 Groups</p>
                   <p>1200 Events</p>
               </div>
-              <ActionButton onClick={() => console.log('r')} glow={false}>Get started</ActionButton>
+              <ActionButton onClick={() => window.location.replace('/login')} glow={false}>Get started</ActionButton>
           </div>
 
           <div className='flex justify-center m-6 space-x-6'>
