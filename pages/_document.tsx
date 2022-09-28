@@ -5,6 +5,7 @@ const Document: React.FC = () => {
     return (
         <Html>
             <Head>
+                <link rel='icon' type="image/x-icon" href='/favicon.png'></link>
             </Head>
             <body>
             <Main />
