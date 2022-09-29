@@ -8,8 +8,32 @@ datasource db {
 }
 
 model User {
-  id               Int      @id @default(autoincrement())
-  createdAt        DateTime @default(now())
-  email            String   @unique
-  username         String   @unique
+  id               Int         @id @default(autoincrement())
+  createdAt        DateTime    @default(now())
+  email            String      @unique
+  username         String      @unique
+  organised        Event[]     @relation("organisers")
+  communities      Community[] @relation("members")
+  events           Event[]     @relation("events")
+}
+
+model Event {
+  id               String      @id @default(cuid())
+  organisers       User[]      @relation("organisers")
+  community        Community?  @relation(fields: [communityId], references: [id])
+  communityId      Int?
+  title            String      @default("Untitled") @db.VarChar(150)
+  description      String      @db.VarChar(250)
+  startDate        DateTime
+  endDate          DateTime
+  location         String
+  attendeeLimit    Int
+  attendees        User[]      @relation("events")
+}
+
+model Community {
+  id               Int         @id @default(autoincrement())
+  title            String      @unique @db.VarChar(50)
+  members          User[]      @relation("members")
+  events           Event[]
 }

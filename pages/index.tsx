@@ -30,7 +30,7 @@ const Home: NextPage = () => {
             <title>Eventron</title>
           </Head>
           <div className='flex p-4'>
-                <button className='ml-auto font-semibold text-xl text-blue-700' onClick={() => signIn()}>Log in</button>
+                <button className='ml-auto font-semibold text-xl text-blue-700 hover:text-blue-800' onClick={() => signIn()}>Log in</button>
           </div>
           <h1 className='text-center font-bold text-5xl mt-3 tracking-wide'><p className='text-blue-700'>Eventron</p> is the app built for
               <p className='text-blue-700'>communities</p>
