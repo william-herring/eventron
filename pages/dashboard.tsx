@@ -33,7 +33,10 @@ const Dashboard: NextPage = () => {
                 <h1 className='font-semibold text-5xl'>Welcome back, {session.user?.name}</h1>
                 <p className='text-gray-500 text-xl w-96 my-6'>No new notifications</p>
                 <div className='flex mt-4 mb-20'>
-                    <input type='text' placeholder='Search Eventron' className='rounded-full w-96 border-2 border-gray-400 p-3'>
+                    <div className='border-gray-400 border-2 border-r-0 rounded-l-full p-4 pr-0'>
+                        <svg width="24px" height="24px" stroke-width="2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#a3a3a3"><path d="M15.5 15.5L19 19M5 11a6 6 0 1012 0 6 6 0 00-12 0z" stroke="#a3a3a3" stroke-width="2.04" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <input type='text' placeholder='Search Eventron' className='rounded-r-full w-96 border-gray-400 border-2 border-l-0 p-4'>
                     </input>
                 </div>
             </div>
