@@ -9,7 +9,7 @@ interface NavigationBarProps {
 const NavigationBar: React.FC<NavigationBarProps> = (props) => {
     const { data: session } = useSession()
 
-    return <div className='flex w-screen fixed p-4'>
+    return <div className='flex w-screen sticky p-4'>
         <div className="flex space-x-8">
             <Link href='#'>
                 <a className='flex items-center text-xl font-semibold rounded-full'>

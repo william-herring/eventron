@@ -29,6 +29,14 @@ const Dashboard: NextPage = () => {
               <title>Dashboard</title>
             </Head>
             <NavigationBar active={0} />
+            <div className='flex flex-col items-center h-screen justify-center text-center'>
+                <h1 className='font-semibold text-5xl'>Welcome back, {session.user?.name}</h1>
+                <p className='text-gray-500 text-xl w-96 my-6'>No new notifications</p>
+                <div className='flex mt-4 mb-20'>
+                    <input type='text' placeholder='Search Eventron' className='rounded-full w-96 border-2 border-gray-400 p-3'>
+                    </input>
+                </div>
+            </div>
         </div>
     )
   }
