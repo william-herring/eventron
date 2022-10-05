@@ -4,6 +4,8 @@ import { useState } from "react"
 import Head from "next/head"
 import prisma from "../../lib/prisma"
 import { User } from "@prisma/client"
+import NavigationBar from "../../components/NavigationBar"
+import Image from "next/image"
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const user = await prisma.user.findUnique({
@@ -27,8 +29,20 @@ const Account: NextPage<{ user: User | null }> = (props) => {
             <Head>
                 <title>{props.user?.username}</title>
             </Head>
+            
+            <NavigationBar active={5} />
 
-            <p className={session?.user?.email == props.user?.email? 'text-green-700' : 'text-black'}>{props.user?.username}</p>
+            <div className='m-4 flex flex-col'>
+
+                <div className='w-full bg-gray-200 h-32 rounded-3xl p-12 text-center'>
+                    <div className='absolute'>
+                        <img src='/default_pfp.png' width={120} height={120} className='rounded-full border-8 border-white' />
+                    </div>
+                    <div className='flex absolute left-52 mt-10 rounded-3xl text-2xl text-center font-bold text-gray-500 px-6 pb-4 pt-2 bg-white border-8 border-white'>
+                        {props.user?.username}
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
