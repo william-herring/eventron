@@ -20,17 +20,26 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
         }
     })
 
-    var events = user?.events.map(e => {
-        return {
-            title: e.title,
-            startDate: e.startDate.getTime(),
-            endDate: e.startDate.getTime()
-        }
+    if (user?.events == undefined) {
+        const events: { 
+            title: string, 
+            startDate: number, 
+            endDate: number }[] = []
+        return { props: { events } }
+    }
+
+    const events = user?.events
+
+    events.map(e => {
+        // @ts-ignore
+        e.startDate = e.startDate.getTime()
+        // @ts-ignore
+        e.endDate = e.endDate.getTime()
+
+        return e
     } )
 
-    console.log(events == undefined);
-
-    return { props: { events } };
+    return { props: { events } }
 }
 
 const Dashboard: NextPage<{ events: { 
