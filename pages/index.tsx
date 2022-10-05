@@ -1,12 +1,25 @@
-import type { NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 import ActionButton from "../components/buttons/ActionButton";
 import Link from "next/link";
 import Image from "next/image";
 import Head from 'next/head';
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router';
+import prisma from '../lib/prisma';
 
-const Home: NextPage = () => {
+export const getStaticProps: GetStaticProps = async () => {
+    const totalUsers: number = await prisma.user.count()
+    const totalCommunities: number = await prisma.community.count()
+    const totalEvents: number = await prisma.event.count()
+
+    return { props: { totalUsers, totalCommunities, totalEvents } };
+}
+
+const Home: NextPage<{
+    totalUsers: number,
+    totalCommunities: number,
+    totalEvents: number
+}> = (props) => {
   const { data: session, status } = useSession()
   const router = useRouter()
 
@@ -37,9 +50,9 @@ const Home: NextPage = () => {
           </h1>
           <div className='w-screen flex items-center mt-10 flex-col text-center space-y-8'>
               <div className='flex space-x-5 text-3xl text-gray-500'>
-                  <p>2500 Users</p>
-                  <p>130 Groups</p>
-                  <p>1200 Events</p>
+                  <p>{props.totalUsers} Users</p>
+                  <p>{props.totalCommunities} Communities</p>
+                  <p>{props.totalEvents} Events</p>
               </div>
               <ActionButton onClick={() => signIn()} glow={false}>Get started</ActionButton>
           </div>

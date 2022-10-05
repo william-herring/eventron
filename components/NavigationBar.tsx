@@ -13,7 +13,7 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
         <div className="flex space-x-8">
             <Link href='#'>
                 <a className='flex items-center text-xl font-semibold rounded-full'>
-                    <p className={props.active == 0? 'ml-2 text-blue-700 hover:text-blue-800' : 'ml-2 text-gray-500'}>Dashboard</p>
+                    <p className={props.active == 0? 'ml-2 text-blue-700 hover:text-blue-800' : 'ml-2 text-gray-500 hover:text-gray-600'}>Dashboard</p>
                 </a>
             </Link>
             <Link href='/my-events'>
@@ -23,7 +23,7 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
             </Link>
             <Link href='/explore'>
                 <a className='flex items-center text-xl font-semibold rounded-full'>
-                    <p className={props.active == 2? 'ml-2 text-blue-700 hover:text-blue-800' : 'ml-2 text-gray-500 hover:text-gray-600'}>Explore</p>
+                    <p className={props.active == 2? 'ml-2 text-blue-700 hover:text-blue-800' : 'ml-2 text-gray-500 hover:text-gray-600'}>Discover</p>
                 </a>
             </Link>
         </div>
