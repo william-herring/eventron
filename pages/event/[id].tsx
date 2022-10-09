@@ -6,6 +6,7 @@ import prisma from "../../lib/prisma"
 import { Event } from "@prisma/client"
 import NavigationBar from "../../components/NavigationBar"
 import Image from "next/image"
+import ActionButton from "../../components/buttons/ActionButton"
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const event = await prisma.event.findUnique({
@@ -20,9 +21,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     })
 
     // @ts-ignore
-    event.startDate = event.startDate.toDateString()
+    event.startDate = event.startDate.toLocaleDateString()
     // @ts-ignore
-    event.endDate = event.endDate.toDateString()
+    event.endDate = event.endDate.toLocaleDateString()
 
     return { props: { event } }
 }
@@ -38,7 +39,7 @@ const Account: NextPage<{ event: any | null }> = (props) => {
             </Head>
             <NavigationBar active={5} />
             <div className='flex flex-col bottom-0 items-center justify-center h-screen bg-gray-100'>
-                <div className='rounded-2xl p-12 shadow-lg bg-white w-96'>
+                <div className='rounded-2xl p-12 shadow-lg bg-white'>
                     <div className='flex items-center'>
                         <svg width="20px" height="20px" stroke-width="2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#6b7280"><path d="M1 20v-1a7 7 0 017-7v0a7 7 0 017 7v1" stroke="#6b7280" stroke-width="2" stroke-linecap="round"></path><path d="M13 14v0a5 5 0 015-5v0a5 5 0 015 5v.5" stroke="#6b7280" stroke-width="2" stroke-linecap="round"></path><path d="M8 12a4 4 0 100-8 4 4 0 000 8zM18 9a3 3 0 100-6 3 3 0 000 6z" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                         <p className='text-gray-500 ml-2 text-sm'>{props.event.community != undefined? props.event.community.title : ''}</p>
@@ -46,6 +47,21 @@ const Account: NextPage<{ event: any | null }> = (props) => {
                     <h1 className='font-bold text-2xl text-blue-700'>
                         {props.event.title}
                     </h1>
+                    <div className='h-52 w-80 rounded-lg bg-gray-500 mt-3'></div>
+                    <div className='flex mt-2 justify-center'>
+                        <ActionButton glow={false} onClick={() => {}}>Register</ActionButton>
+                    </div>
+                    <div className='mt-2 space-y-1'>
+                        <div className='flex'>
+                            <svg width="24px" height="24px" stroke-width="2.04" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M20 10c0 4.418-8 12-8 12s-8-7.582-8-12a8 8 0 1116 0z" stroke="#6b7280" stroke-width="2.04"></path><path d="M12 11a1 1 0 100-2 1 1 0 000 2z" fill="#000000" stroke="#6b7280" stroke-width="2.04" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                            <p className='ml-2 text-gray-500 font-medium'>{props.event?.location}</p>
+                        </div>
+                        <div className='flex'>
+                            <svg width="24px" height="24px" stroke-width="2.04" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#6b7280"><path d="M15 4V2m0 2v2m0-2h-4.5M3 10v9a2 2 0 002 2h14a2 2 0 002-2v-9H3zM3 10V6a2 2 0 012-2h2M7 2v4M21 10V6a2 2 0 00-2-2h-.5" stroke="#6b7280" stroke-width="2.04" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                            {props.event?.startDate == props.event?.endDate? <p className='ml-2 text-gray-500 font-medium'>{props.event?.startDate}</p> :
+                            <p className='ml-2 text-gray-500 font-medium'>{props.event?.startDate} – {props.event?.endDate}</p>}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
