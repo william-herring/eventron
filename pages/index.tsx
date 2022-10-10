@@ -54,7 +54,9 @@ const Home: NextPage<{
                   <p>{props.totalCommunities} Communities</p>
                   <p>{props.totalEvents} Events</p>
               </div>
-              <ActionButton onClick={() => signIn()} glow={false}>Get started</ActionButton>
+              <div className='w-32'>
+                <ActionButton onClick={() => signIn()} glow={false}>Get started</ActionButton>
+              </div>
           </div>
 
           <div className='flex justify-center m-6 space-x-6'>
