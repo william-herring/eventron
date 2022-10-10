@@ -8,6 +8,19 @@ import NavigationBar from "../../components/NavigationBar"
 import Image from "next/image"
 import ActionButton from "../../components/buttons/ActionButton"
 
+interface EventProps {
+    id: string,
+    organisers: { username: string }[],
+    community: { title: string },
+    title: string,
+    description: string,
+    startDate: string,
+    endDate: string,
+    location: string,
+    attendeeLimit: number,
+    attendees: { username: string }[]
+}
+
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const event = await prisma.event.findUnique({
         where: {
@@ -16,6 +29,12 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
         include: {
             community: {
                 select: { title: true }
+            },
+            organisers: {
+                select: { username: true }
+            },
+            attendees: {
+                select: { username: true }
             }
         }
     })
@@ -25,12 +44,16 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     // @ts-ignore
     event.endDate = event.endDate.toLocaleDateString()
 
+    console.log(event)
+
     return { props: { event } }
 }
 
-const Account: NextPage<{ event: any | null }> = (props) => {
+const Account: NextPage<{ event: EventProps }> = (props) => {
     const { data: session } = useSession()
-    const [ tab, setTab ] = useState(0)
+    const [ showDesc, setShowDesc ] = useState(false)
+
+    console.log(props.event?.organisers)
 
     return (
         <div className='overflow-hidden'>
@@ -38,7 +61,8 @@ const Account: NextPage<{ event: any | null }> = (props) => {
                 <title>{props.event?.title}</title>
             </Head>
             <NavigationBar active={5} />
-            <div className='flex flex-col bottom-0 items-center justify-center h-screen bg-gray-100'>
+            <div className='flex bottom-0 items-center justify-center h-screen bg-gray-100'>
+
                 <div className='rounded-2xl p-12 shadow-lg bg-white'>
                     <div className='flex items-center'>
                         <svg width="20px" height="20px" stroke-width="2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#6b7280"><path d="M1 20v-1a7 7 0 017-7v0a7 7 0 017 7v1" stroke="#6b7280" stroke-width="2" stroke-linecap="round"></path><path d="M13 14v0a5 5 0 015-5v0a5 5 0 015 5v.5" stroke="#6b7280" stroke-width="2" stroke-linecap="round"></path><path d="M8 12a4 4 0 100-8 4 4 0 000 8zM18 9a3 3 0 100-6 3 3 0 000 6z" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -51,7 +75,13 @@ const Account: NextPage<{ event: any | null }> = (props) => {
                     <div className='flex mt-2 justify-center'>
                         <ActionButton glow={false} onClick={() => {}}>Register</ActionButton>
                     </div>
-                    <div className='mt-2 space-y-1'>
+                    {showDesc? <div className='w-80 my-2'>
+                        <p className='text-gray-500 font-medium'>{props.event.description}</p>
+                    </div> : <div className='my-2 space-y-1'>
+                        <div className='flex'>
+                            <svg width="24px" height="24px" stroke-width="2.04" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M5 20v-1a7 7 0 017-7v0a7 7 0 017 7v1M12 12a4 4 0 100-8 4 4 0 000 8z" stroke="#6b7280" stroke-width="2.04" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                            <p className='ml-2 text-gray-500 font-medium'>{props.event?.organisers.map((u) => u.username + (props.event.organisers.length > 1? ',' : ''))}</p>
+                        </div>
                         <div className='flex'>
                             <svg width="24px" height="24px" stroke-width="2.04" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M20 10c0 4.418-8 12-8 12s-8-7.582-8-12a8 8 0 1116 0z" stroke="#6b7280" stroke-width="2.04"></path><path d="M12 11a1 1 0 100-2 1 1 0 000 2z" fill="#000000" stroke="#6b7280" stroke-width="2.04" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                             <p className='ml-2 text-gray-500 font-medium'>{props.event?.location}</p>
@@ -61,7 +91,9 @@ const Account: NextPage<{ event: any | null }> = (props) => {
                             {props.event?.startDate == props.event?.endDate? <p className='ml-2 text-gray-500 font-medium'>{props.event?.startDate}</p> :
                             <p className='ml-2 text-gray-500 font-medium'>{props.event?.startDate} – {props.event?.endDate}</p>}
                         </div>
-                    </div>
+                    </div>}
+
+                    <button className='font-semibold text-blue-700 w-full text-center' onClick={() => setShowDesc(!showDesc)}>{showDesc? 'Show details' : 'Show description'}</button>
                 </div>
             </div>
         </div>
