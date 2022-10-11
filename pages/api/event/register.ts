@@ -7,7 +7,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     const id = req.query.id
     const session = await getSession({ req });
 
-    const feed = await prisma.event.findUnique({
+    const attendees = await prisma.event.findUnique({
         where: {
             id: id?.toString() || ''
         },
