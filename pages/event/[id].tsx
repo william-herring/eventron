@@ -46,8 +46,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     // @ts-ignore
     event.endDate = event.endDate.toLocaleDateString()
 
-    console.log(event)
-
     return { props: { event } }
 }
 
@@ -104,7 +102,7 @@ const Account: NextPage<{ event: EventProps }> = (props) => {
                     <h1 className='font-bold text-2xl text-blue-700'>
                         {props.event.title}
                     </h1>
-                    <Image src={props.event.image} width={80} height={52} />
+                    <img src={props.event.image} className='w-80' />
                     <div className='flex mt-2 justify-center'>
                         {attendees.includes(session?.user?.name || '')? 
                             <ActionButton glow={false} onClick={deregister}><div className='flex justify-center'>Registered 
