@@ -23,6 +23,7 @@ model Event {
   community        Community?  @relation(fields: [communityId], references: [id])
   communityId      Int?
   title            String      @default("Untitled") @db.VarChar(150)
+  image            String      @default("/placeholder.png")
   description      String      @db.VarChar(250)
   startDate        DateTime
   endDate          DateTime

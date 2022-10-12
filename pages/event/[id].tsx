@@ -18,6 +18,7 @@ interface EventProps {
     startDate: string,
     endDate: string,
     location: string,
+    image: string,
     attendeeLimit: number,
     attendees: { username: string }[]
 }
@@ -64,6 +65,14 @@ const Account: NextPage<{ event: EventProps }> = (props) => {
         router.reload()
     }
 
+    const deregister = async () => {
+        const res = await fetch(`../api/event/deregister?id=${props.event.id}`, {
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json'},
+        })
+        router.reload()
+    }
+
     if (status === "loading") {
         return <div className='flex w-screen h-screen justify-center items-center'>
                 <Image width={80} height={80} src='/loading_spinner.svg' className='animate-spin' />
@@ -77,6 +86,8 @@ const Account: NextPage<{ event: EventProps }> = (props) => {
     if (status != "authenticated") {
         return <div></div>
     }
+
+    console.log(props.event.image)
     
     return (
         <div className='overflow-hidden'>
@@ -93,10 +104,10 @@ const Account: NextPage<{ event: EventProps }> = (props) => {
                     <h1 className='font-bold text-2xl text-blue-700'>
                         {props.event.title}
                     </h1>
-                    <div className='h-52 w-80 rounded-lg bg-gray-500 mt-3'></div>
+                    <Image src={props.event.image} width={80} height={52} />
                     <div className='flex mt-2 justify-center'>
                         {attendees.includes(session?.user?.name || '')? 
-                            <ActionButton glow={false} onClick={() => {}}><div className='flex justify-center'>Registered 
+                            <ActionButton glow={false} onClick={deregister}><div className='flex justify-center'>Registered 
                             <svg width="24px" height="24px" stroke-width="1.96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="1.96" stroke-linecap="round" stroke-linejoin="round"></path></svg></div></ActionButton>
                             :
                             <ActionButton glow={false} onClick={register}>Register {`(${props.event.attendees.length}/${props.event.attendeeLimit})`}</ActionButton>

@@ -9,7 +9,7 @@ interface NavigationBarProps {
 const NavigationBar: React.FC<NavigationBarProps> = (props) => {
     const { data: session } = useSession()
 
-    return <div className='flex fixed w-screen p-4 bg-white'>
+    return <div className='flex fixed z-10 w-screen p-4 bg-white'>
         <div className="flex space-x-8">
             <Link href='/dashboard'>
                 <a className='flex items-center text-xl font-semibold rounded-full'>
