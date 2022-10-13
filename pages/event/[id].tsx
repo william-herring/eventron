@@ -49,7 +49,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     return { props: { event } }
 }
 
-const Account: NextPage<{ event: EventProps }> = (props) => {
+const Event: NextPage<{ event: EventProps }> = (props) => {
     const { data: session, status } = useSession()
     const [ showDesc, setShowDesc ] = useState(false)
     const router = useRouter()
@@ -136,4 +136,4 @@ const Account: NextPage<{ event: EventProps }> = (props) => {
     )
 }
 
-export default Account
+export default Event
