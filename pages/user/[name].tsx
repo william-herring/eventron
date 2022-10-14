@@ -33,7 +33,6 @@ const Account: NextPage<{ user: User | null }> = (props) => {
             <NavigationBar active={5} />
 
             <div className='m-4 flex flex-col'>
-
                 <div className='w-full bg-gray-200 h-32 rounded-3xl p-12 text-center'>
                     <div className='absolute'>
                         <img src='/default_pfp.png' width={120} height={120} className='rounded-full border-8 border-white' />
