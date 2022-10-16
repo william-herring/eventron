@@ -12,8 +12,8 @@ const Create: NextPage = () => {
     const [title, setTitle] = useState('New event')
     const [description, setDescription] = useState('')
     const [image, setImage] = useState('/placeholder.png')
-    const [startDate, setStartDate] = useState('dd/mm/yy')
-    const [endDate, setEndDate] = useState('dd/mm/yy')
+    const [startDate, setStartDate] = useState('dd/mm/yyyy')
+    const [endDate, setEndDate] = useState('dd/mm/yyyy')
     const [community, setCommunity] = useState('')
     const [organisers, setOrganisers] = useState([])
     const router = useRouter()
@@ -33,7 +33,28 @@ const Create: NextPage = () => {
     }
 
     const submit = async () => {
+        const data = {
+            title: title,
+            description: description,
+            image: image,
+            startDate: startDate,
+            endDate: endDate,
+            community: community || 'All',
 
+        }
+
+        const res = await fetch('../api/feed/create', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data),
+        })
+
+        if (res.status != 200) {
+            alert('Something went wrong')
+            return
+        }
+        const obj = await res.json()
+        await router.replace('/feed/' + obj['id'])
     }
 
     return (
@@ -51,9 +72,9 @@ const Create: NextPage = () => {
                         <input className='w-full text-xl p-3 mb-3 text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='Image URL' 
                         onChange={(e) => setImage(e.target.value)} />
                         <div className='flex mb-3'>
-                            <input className='text-xl p-3 mb-3 w-full text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='Start (dd/mm/yy)' 
+                            <input className='text-xl p-3 mb-3 w-full text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='Start (dd/mm/yyyy)' 
                             onChange={(e) => setStartDate(e.target.value)} />
-                            <input className='text-xl p-3 mb-3 w-full text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='End (dd/mm/yy)' 
+                            <input className='text-xl p-3 mb-3 w-full text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='End (dd/mm/yyyy)' 
                             onChange={(e) => setEndDate(e.target.value)} />
                         </div>
                         <textarea className='w-full text-lg p-3 mb-3 text-gray-500 outline-0 border-dashed border-2 rounded-lg border-gray-400 focus:border-blue-700 focus:caret-blue-700 focus:border-solid' rows={4} placeholder='Description' 
