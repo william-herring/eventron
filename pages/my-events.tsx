@@ -7,8 +7,8 @@ import NavigationBar from "../components/NavigationBar"
 import prisma from "../lib/prisma"
 import { Event } from "@prisma/client"
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-    const session = await getSession()
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const session = await getSession(ctx)
     const user = await prisma.user.findUnique({
         where: {
             email: session?.user?.email || ''
@@ -70,7 +70,7 @@ const Dashboard: NextPage<{ events: {
               <title>My Events</title>
             </Head>
             <NavigationBar active={1} />
-            <div className='flex flex-col w-screen items center justify-center'>
+            <div className='flex flex-col w-screen h-screen items-center justify-center'>
                 {props.events.map((e) => <p>{e.title}</p>)}
             </div>
         </div>
