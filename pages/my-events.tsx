@@ -80,7 +80,22 @@ const Dashboard: NextPage<{ events: {
                 <FullCalendar
                     plugins={[ timeGridPlugin ]}
                     initialView="timeGridWeek"
-                    events='https://fullcalendar.io/api/demo-feeds/events.json'
+                    events={[
+                        {
+                            id: '1',
+                            allDay: false,
+                            title: 'A new event',
+                            start: '2022-10-17',
+                            end: '2022-10-20'
+                        },
+                        {
+                            id: '2',
+                            allDay: false,
+                            title: 'Yes',
+                            start: '2022-10-20',
+                            end: '2022-10-24'
+                        }
+                    ]}
                 />
             </div>
         </div>
