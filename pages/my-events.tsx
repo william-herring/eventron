@@ -5,7 +5,8 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import NavigationBar from "../components/NavigationBar"
 import prisma from "../lib/prisma"
-import { Event } from "@prisma/client"
+import FullCalendar from '@fullcalendar/react'
+import timeGridPlugin from '@fullcalendar/timegrid';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const session = await getSession(ctx)
@@ -15,14 +16,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         },
         select: {
             events: {
-                select: { title: true, startDate: true, endDate: true }
+                select: { title: true, id: true, startDate: true, endDate: true }
             }
         }
     })
 
     if (user?.events == undefined) {
         const events: { 
-            title: string, 
+            title: string,
+            id: string, 
             startDate: number, 
             endDate: number }[] = []
         return { props: { events } }
@@ -43,7 +45,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 }
 
 const Dashboard: NextPage<{ events: { 
-    title: string, 
+    title: string,
+    id: string,
     startDate: number, 
     endDate: number }[] 
 }> = (props) => {
@@ -70,8 +73,15 @@ const Dashboard: NextPage<{ events: {
               <title>My Events</title>
             </Head>
             <NavigationBar active={1} />
-            <div className='flex flex-col w-screen h-screen items-center justify-center'>
-                {props.events.map((e) => <p>{e.title}</p>)}
+            <div className='p-6'>
+                <div className='mt-24'>
+                    <h1></h1>
+                </div>
+                <FullCalendar
+                    plugins={[ timeGridPlugin ]}
+                    initialView="timeGridWeek"
+                    events='https://fullcalendar.io/api/demo-feeds/events.json'
+                />
             </div>
         </div>
     )

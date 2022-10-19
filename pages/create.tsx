@@ -63,7 +63,7 @@ const Create: NextPage = () => {
                 <title>{title || 'New title'}</title>
             </Head>
             <NavigationBar active={5} />
-            <div className='flex flex-col items-center h-screen w-screen fixed justify-center text-center'>
+            <div className='flex flex-col items-center h-screen w-screen justify-center text-center'>
                 <div className='w-1/3'>
                     <h1 className='font-bold text-4xl my-6 text-blue-700'>Create an Event</h1>
                     <form>
