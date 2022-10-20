@@ -7,6 +7,7 @@ import NavigationBar from "../components/NavigationBar"
 import prisma from "../lib/prisma"
 import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid';
+import ActionButton from "../components/buttons/ActionButton"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const session = await getSession(ctx)
@@ -52,6 +53,7 @@ const Dashboard: NextPage<{ events: {
 }> = (props) => {
     const { data: session, status } = useSession()
     const router = useRouter()
+    let calendarObjs = []
 
     if (status === "loading") {
         return <div className='flex w-screen h-screen justify-center items-center'>
@@ -66,6 +68,14 @@ const Dashboard: NextPage<{ events: {
     if (status != "authenticated") {
         return <div></div>
     }
+
+    props.events.forEach((e) => calendarObjs.push({
+        id: e.id,
+        title: e.title,
+        allDay: true,
+        start: new Date(e.startDate).toLocaleDateString().replaceAll('/', '-'),
+        end: new Date(e.endDate).toLocaleDateString().replaceAll('/', '-'),
+    }))
   
     return (
         <div>
@@ -74,28 +84,15 @@ const Dashboard: NextPage<{ events: {
             </Head>
             <NavigationBar active={1} />
             <div className='p-6'>
-                <div className='mt-24'>
-                    <h1></h1>
+                <div className='flex justify-center mt-24'>
+                    <div>
+                        <ActionButton glow={false} onClick={() => {}}>Toggle list view</ActionButton>
+                    </div>
                 </div>
                 <FullCalendar
                     plugins={[ timeGridPlugin ]}
                     initialView="timeGridWeek"
-                    events={[
-                        {
-                            id: '1',
-                            allDay: false,
-                            title: 'A new event',
-                            start: '2022-10-17',
-                            end: '2022-10-20'
-                        },
-                        {
-                            id: '2',
-                            allDay: false,
-                            title: 'Yes',
-                            start: '2022-10-20',
-                            end: '2022-10-24'
-                        }
-                    ]}
+                    events={calendarObjs}
                 />
             </div>
         </div>
