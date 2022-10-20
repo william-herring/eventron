@@ -53,7 +53,7 @@ const Dashboard: NextPage<{ events: {
 }> = (props) => {
     const { data: session, status } = useSession()
     const router = useRouter()
-    let calendarObjs: { id: string; title: string; allDay: boolean; start: string; end: string }[] | undefined = []
+    let calendarObjs: { id: string; title: string; start: string; end: string }[] | undefined = []
 
     if (status === "loading") {
         return <div className='flex w-screen h-screen justify-center items-center'>
@@ -72,10 +72,10 @@ const Dashboard: NextPage<{ events: {
     props.events.forEach((e) => calendarObjs?.push({
         id: e.id,
         title: e.title,
-        allDay: true,
-        start: new Date(e.startDate).toLocaleDateString().replaceAll('/', '-'),
-        end: new Date(e.endDate).toLocaleDateString().replaceAll('/', '-'),
+        start: new Date(e.startDate).toISOString(),
+        end: new Date(e.endDate).toISOString()
     }))
+
   
     return (
         <div>
@@ -86,7 +86,7 @@ const Dashboard: NextPage<{ events: {
             <div className='p-6'>
                 <div className='flex justify-center mt-24'>
                     <div>
-                        <ActionButton glow={false} onClick={() => {}}>Toggle list view</ActionButton>
+                        <ActionButton glow={false} onClick={() => {}}>Toggle List View</ActionButton>
                     </div>
                 </div>
                 <FullCalendar
