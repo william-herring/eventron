@@ -5,7 +5,7 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import NavigationBar from "../components/NavigationBar"
 import prisma from "../lib/prisma"
-import FullCalendar from '@fullcalendar/react'
+import FullCalendar, { EventSourceInput } from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid';
 import ActionButton from "../components/buttons/ActionButton"
 
@@ -53,7 +53,7 @@ const Dashboard: NextPage<{ events: {
 }> = (props) => {
     const { data: session, status } = useSession()
     const router = useRouter()
-    let calendarObjs = []
+    let calendarObjs: { id: string; title: string; allDay: boolean; start: string; end: string }[] | undefined = []
 
     if (status === "loading") {
         return <div className='flex w-screen h-screen justify-center items-center'>
@@ -69,7 +69,7 @@ const Dashboard: NextPage<{ events: {
         return <div></div>
     }
 
-    props.events.forEach((e) => calendarObjs.push({
+    props.events.forEach((e) => calendarObjs?.push({
         id: e.id,
         title: e.title,
         allDay: true,
