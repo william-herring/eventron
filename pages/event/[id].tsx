@@ -68,7 +68,12 @@ const EventPage: NextPage<{ event: EventProps }> = (props) => {
             method: 'PATCH',
             headers: {'Content-Type': 'application/json'},
         })
-        router.reload()
+        
+        if (res.status == 403) {
+            alert('Cannot remove organiser registration')
+        } else {
+            router.reload()
+        }
     }
 
     if (status === "loading") {
