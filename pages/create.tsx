@@ -13,8 +13,10 @@ const Create: NextPage = () => {
     const [description, setDescription] = useState('')
     const [image, setImage] = useState('/placeholder.png')
     const [startDate, setStartDate] = useState('dd/mm/yyyy')
-    const [endDate, setEndDate] = useState('dd/mm/yyyy')
-    const [community, setCommunity] = useState('')
+    const [endDate, setEndDate] = useState('hh:mm')
+    const [startTime, setStartTime] = useState('hh:mm')
+    const [endTime, setEndTime] = useState('dd/mm/yyyy')
+    const [community, setCommunity] = useState(1)
     const [organisers, setOrganisers] = useState([])
     const router = useRouter()
 
@@ -32,18 +34,26 @@ const Create: NextPage = () => {
         return <div></div>
     }
 
-    const submit = async () => {
+    const submit = async (e: any) => {
+        e.preventDefault()
+        let startDateObj = new Date(startDate)
+        let endDateObj = new Date(endDate)
+        startDateObj.setHours(parseInt(startTime[0]) + parseInt(startTime[1]))
+        startDateObj.setMinutes(parseInt(startTime[3]) + parseInt(startTime[4]))
+        endDateObj.setHours(parseInt(endTime[0]) + parseInt(startTime[1]))
+        endDateObj.setMinutes(parseInt(endTime[3]) + parseInt(endTime[4]))
+        console.log(startDateObj, endDateObj)
         const data = {
             title: title,
             description: description,
-            image: image,
-            startDate: startDate,
-            endDate: endDate,
-            community: community || 'All',
-
+            image: image || '/placeholder.png',
+            startDate: startDateObj.toISOString(),
+            endDate: endDateObj.toISOString(),
+            community: community || 1,
+            organisers: organisers
         }
 
-        const res = await fetch('../api/feed/create', {
+        const res = await fetch('../api/event/create', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data),
@@ -77,6 +87,12 @@ const Create: NextPage = () => {
                             <input className='text-xl p-3 mb-3 w-full text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='End (dd/mm/yyyy)' 
                             onChange={(e) => setEndDate(e.target.value)} />
                         </div>
+                        <div className='flex mb-3'>
+                            <input className='text-xl p-3 mb-3 w-full text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='Start (hh:mm)' 
+                            onChange={(e) => setStartTime(e.target.value)} />
+                            <input className='text-xl p-3 mb-3 w-full text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='End (hh:mm)' 
+                            onChange={(e) => setEndTime(e.target.value)} />
+                        </div>
                         <textarea className='w-full text-lg p-3 mb-3 text-gray-500 outline-0 border-dashed border-2 rounded-lg border-gray-400 focus:border-blue-700 focus:caret-blue-700 focus:border-solid' rows={4} placeholder='Description' 
                         onChange={(e) => setDescription(e.target.value)} />
                         <button className='flex items-center text-gray-500 text-xl mb-3 ml-2'>
@@ -87,7 +103,7 @@ const Create: NextPage = () => {
                             <svg width="24px" height="24px" stroke-width="1.96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M17 10h3m3 0h-3m0 0V7m0 3v3M1 20v-1a7 7 0 017-7v0a7 7 0 017 7v1M8 12a4 4 0 100-8 4 4 0 000 8z" stroke="#6b7280" stroke-width="1.96" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                             <p className='ml-2 text-lg'>{organisers.length == 0? 'Add organisers' : organisers}</p>
                         </button>
-                        <ActionButton glow={false} onClick={submit}>Submit</ActionButton>
+                        <ActionButton glow={false} onClick={() => submit()}>Submit</ActionButton>
                     </form>
                 </div>
             </div>

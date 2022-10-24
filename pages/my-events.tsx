@@ -10,7 +10,6 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import ActionButton from "../components/buttons/ActionButton"
 import { useState } from "react"
 import Link from "next/link"
-import { User } from "@prisma/client"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const session = await getSession(ctx)
@@ -52,7 +51,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     return { props: { events } }
 }
 
-const Dashboard: NextPage<{ events: { 
+const Dashboard: NextPage<{ events: {
     title: string,
     id: string,
     organisers: string[],
