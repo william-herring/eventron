@@ -34,8 +34,7 @@ const Create: NextPage = () => {
         return <div></div>
     }
 
-    const submit = async (e: any) => {
-        e.preventDefault()
+    const submit = async () => {
         let startDateObj = new Date(startDate)
         let endDateObj = new Date(endDate)
         startDateObj.setHours(parseInt(startTime[0]) + parseInt(startTime[1]))
@@ -103,7 +102,7 @@ const Create: NextPage = () => {
                             <svg width="24px" height="24px" stroke-width="1.96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M17 10h3m3 0h-3m0 0V7m0 3v3M1 20v-1a7 7 0 017-7v0a7 7 0 017 7v1M8 12a4 4 0 100-8 4 4 0 000 8z" stroke="#6b7280" stroke-width="1.96" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                             <p className='ml-2 text-lg'>{organisers.length == 0? 'Add organisers' : organisers}</p>
                         </button>
-                        <ActionButton glow={false} onClick={() => submit()}>Submit</ActionButton>
+                        <ActionButton glow={false} onClick={submit}>Submit</ActionButton>
                     </form>
                 </div>
             </div>
