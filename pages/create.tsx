@@ -13,11 +13,13 @@ const Create: NextPage = () => {
     const [description, setDescription] = useState('')
     const [image, setImage] = useState('/placeholder.png')
     const [startDate, setStartDate] = useState('dd/mm/yyyy')
-    const [endDate, setEndDate] = useState('hh:mm')
-    const [startTime, setStartTime] = useState('hh:mm')
+    const [endDate, setEndDate] = useState('09:22')
+    const [startTime, setStartTime] = useState('03:15')
     const [endTime, setEndTime] = useState('dd/mm/yyyy')
     const [community, setCommunity] = useState(1)
     const [organisers, setOrganisers] = useState([])
+    const [location, setLocation] = useState('Virtual')
+    const [attendeeLimit, setAttendeeLimit] = useState(15)
     const router = useRouter()
 
     if (status === "loading") {
@@ -35,21 +37,18 @@ const Create: NextPage = () => {
     }
 
     const submit = async () => {
-        let startDateObj = new Date(startDate)
-        let endDateObj = new Date(endDate)
-        startDateObj.setHours(parseInt(startTime[0]) + parseInt(startTime[1]))
-        startDateObj.setMinutes(parseInt(startTime[3]) + parseInt(startTime[4]))
-        endDateObj.setHours(parseInt(endTime[0]) + parseInt(startTime[1]))
-        endDateObj.setMinutes(parseInt(endTime[3]) + parseInt(endTime[4]))
-        console.log(startDateObj, endDateObj)
         const data = {
             title: title,
             description: description,
             image: image || '/placeholder.png',
-            startDate: startDateObj.toISOString(),
-            endDate: endDateObj.toISOString(),
+            startDate: startDate,
+            endDate: endDate,
+            startTime: startTime,
+            endTime: endTime,
             community: community || 1,
-            organisers: organisers
+            organisers: organisers,
+            location: location,
+            attendeeLimit: attendeeLimit
         }
 
         const res = await fetch('../api/event/create', {
@@ -57,6 +56,8 @@ const Create: NextPage = () => {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data),
         })
+
+        console.log(startTime, endTime)
 
         if (res.status != 200) {
             alert('Something went wrong')
@@ -73,11 +74,13 @@ const Create: NextPage = () => {
             </Head>
             <NavigationBar active={5} />
             <div className='flex flex-col items-center h-screen w-screen justify-center text-center'>
-                <div className='w-1/3'>
+                <div className='w-1/3 mt-96'>
                     <h1 className='font-bold text-4xl my-6 text-blue-700'>Create an Event</h1>
                     <form>
                         <input className='w-full text-xl p-3 mb-3 text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='Title'
                         onChange={(e) => setTitle(e.target.value)} />
+                        <input className='w-full text-xl p-3 mb-3 text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='Location' 
+                        onChange={(e) => setLocation(e.target.value)} />
                         <input className='w-full text-xl p-3 mb-3 text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='Image URL' 
                         onChange={(e) => setImage(e.target.value)} />
                         <div className='flex mb-3'>
@@ -92,6 +95,8 @@ const Create: NextPage = () => {
                             <input className='text-xl p-3 mb-3 w-full text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='End (hh:mm)' 
                             onChange={(e) => setEndTime(e.target.value)} />
                         </div>
+                        <input className='w-full text-xl p-3 mb-3 text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='Attendee limit' 
+                        onChange={(e) => setAttendeeLimit(parseInt(e.target.value))} />
                         <textarea className='w-full text-lg p-3 mb-3 text-gray-500 outline-0 border-dashed border-2 rounded-lg border-gray-400 focus:border-blue-700 focus:caret-blue-700 focus:border-solid' rows={4} placeholder='Description' 
                         onChange={(e) => setDescription(e.target.value)} />
                         <button className='flex items-center text-gray-500 text-xl mb-3 ml-2'>
