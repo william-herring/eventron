@@ -74,7 +74,7 @@ const Create: NextPage = () => {
             </Head>
             <NavigationBar active={5} />
             <div className='flex flex-col items-center h-screen w-screen justify-center text-center'>
-                <div className='w-1/3 h-screen mt-28'>
+                <div className='w-1/3 mt-96'>
                     <h1 className='font-bold text-4xl my-6 text-blue-700'>Create an Event</h1>
                     <form>
                         <input className='w-full text-xl p-3 mb-3 text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='Title'
