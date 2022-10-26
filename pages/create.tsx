@@ -13,9 +13,9 @@ const Create: NextPage = () => {
     const [description, setDescription] = useState('')
     const [image, setImage] = useState('/placeholder.png')
     const [startDate, setStartDate] = useState('dd/mm/yyyy')
-    const [endDate, setEndDate] = useState('09:22')
-    const [startTime, setStartTime] = useState('03:15')
-    const [endTime, setEndTime] = useState('dd/mm/yyyy')
+    const [endDate, setEndDate] = useState('dd/mm/yyy')
+    const [startTime, setStartTime] = useState('03:00')
+    const [endTime, setEndTime] = useState('21:00')
     const [community, setCommunity] = useState(1)
     const [organisers, setOrganisers] = useState([])
     const [location, setLocation] = useState('Virtual')
@@ -84,9 +84,9 @@ const Create: NextPage = () => {
                         <input className='w-full text-xl p-3 mb-3 text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='Image URL' 
                         onChange={(e) => setImage(e.target.value)} />
                         <div className='flex mb-3'>
-                            <input className='text-xl p-3 mb-3 w-full text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='Start (dd/mm/yyyy)' 
+                            <input className='text-xl p-3 mb-3 w-full text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='Start (yyyy/mm/dd)' 
                             onChange={(e) => setStartDate(e.target.value)} />
-                            <input className='text-xl p-3 mb-3 w-full text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='End (dd/mm/yyyy)' 
+                            <input className='text-xl p-3 mb-3 w-full text-gray-500 outline-0 border-b-2 border-gray-400 focus:border-blue-700 focus:caret-blue-700' type='text' placeholder='End (yyyy/mm/dd)' 
                             onChange={(e) => setEndDate(e.target.value)} />
                         </div>
                         <div className='flex mb-3'>

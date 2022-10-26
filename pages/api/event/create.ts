@@ -10,7 +10,12 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     const start = new Date(startDate)
     const end =  new Date(endDate)
 
-    const organiserObjs: any[] = []
+    start.setHours(parseInt(startTime[0] + startTime[1]))
+    end.setHours(parseInt(endTime[0] + endTime[1]))
+    start.setMinutes(parseInt(startTime[3] + startTime[4]))
+    end.setMinutes(parseInt(endTime[3] + endTime[4]))
+
+    const organiserObjs: { email: string | null | undefined }[] = [{ email: session?.user?.email }]
     organisers.forEach((u: string) => organiserObjs.push({
         email: u
     }))
@@ -20,10 +25,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
             title: title,
             description: description,
             // @ts-ignore
-            organisers: [{ connect: { email: session?.user?.email } }].concat(organiserObjs),
+            organisers: { connect: organiserObjs },
             image: image,
-            startDate: new Date("2020-03-19T14:21:00+0200"),
-            endDate:  new Date("2020-03-19T14:21:00+0200"),
+            startDate: start,
+            endDate:  end,
             community: {
                 connect: {
                     id: community
@@ -31,6 +36,8 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
             },
             attendeeLimit: attendeeLimit,
             location: location,
+            // @ts-ignore
+            attendees: { connect: { email: session?.user?.email } }
         },
     });
     res.json(result)
