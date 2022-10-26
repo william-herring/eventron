@@ -29,7 +29,7 @@ const Discover: NextPage = () => {
             <Head>
               <title>Discover</title>
             </Head>
-            <NavigationBar active={0} />
+            <NavigationBar active={2} />
             <div className='flex flex-col items-center text-center'>
                 <div className='flex flex-col mt-24 items-center space-y-3'>
                     <h1 className='font-semibold text-4xl'>Search for events, communities and users</h1>
