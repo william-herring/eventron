@@ -15,10 +15,12 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     start.setMinutes(parseInt(startTime[3] + startTime[4]))
     end.setMinutes(parseInt(endTime[3] + endTime[4]))
 
-    const organiserObjs: { email: string | null | undefined }[] = [{ email: session?.user?.email }]
+    const organiserObjs: { username: string | null | undefined }[] = [{ username: session?.user?.name }]
     organisers.forEach((u: string) => organiserObjs.push({
-        email: u
+        username: u
     }))
+
+    console.log(organiserObjs)
 
     const result = await prisma.event.create({
         data: {
@@ -31,7 +33,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
             endDate:  end,
             community: {
                 connect: {
-                    id: community
+                    title: community
                 }
             },
             attendeeLimit: attendeeLimit,
