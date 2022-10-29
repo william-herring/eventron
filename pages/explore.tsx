@@ -1,12 +1,53 @@
-import { NextPage } from "next"
-import { signOut, useSession } from "next-auth/react"
+import { GetServerSideProps, NextPage } from "next"
+import { getSession, signOut, useSession } from "next-auth/react"
 import Head from "next/head"
 import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import NavigationBar from "../components/NavigationBar"
 import SearchBar from "../components/SearchBar"
+import prisma from "../lib/prisma"
 
-const Discover: NextPage = () => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+    const session = await getSession({ req })
+
+    const result = await prisma.user.findUnique({
+        where: {
+            email: session?.user?.email || ''
+        },
+        select: {
+            communities: {
+                select: {
+                    id: true,
+                    title: true,
+                    events: {
+                        select: {
+                            id: true,
+                            title: true,
+                        }
+                    }
+                }
+            }
+        }
+    })
+
+    const communities = result?.communities
+
+    console.log(communities)
+
+    return { props: { communities } }
+}
+
+const Discover: NextPage<{
+    communities: {
+        id: number,
+        title: string,
+        events: {
+            id: string,
+            title: string
+        }[]
+    }[]
+}> = (props) => {
     const { data: session, status } = useSession()
     const router = useRouter()
 
@@ -23,6 +64,8 @@ const Discover: NextPage = () => {
     if (status != "authenticated") {
         return <div></div>
     }
+
+    console.log(props)
   
     return (
         <div>
@@ -34,6 +77,13 @@ const Discover: NextPage = () => {
                 <div className='flex flex-col mt-24 items-center space-y-3'>
                     <h1 className='font-semibold text-4xl'>Search for events, communities and users</h1>
                     <SearchBar />
+                    {props.communities != undefined? props.communities.map(c => <div>
+                        {c.events.map(e => <Link href={`/event/${e.id}`}>
+                        <a className='flex p-3 text-center justify-center my-2 w-96'>
+                            <p className='font-medium text-blue-700'>{e.title}</p>
+                            <p className='text-gray-500 ml-3'>{c.title}</p>
+                        </a></Link>)}
+                    </div>) : <h2>No suggested posts</h2>}
                 </div>
             </div>
         </div>
