@@ -24,3 +24,43 @@ Eventron has been built as a social platform for engaging in virtual and in-pers
     <li>Competitions</li>
 </ul>
 </p>
+
+<h3 id='planning'>Planning</h3>
+Before commencing development of Eventron, a comphrehensive design document and timeline was created. These can be accessed via the following links: <br><br>
+<ul>
+    <li><a href='https://docs.google.com/document/d/1dpO2zW3C1RsBffR5z_qK9FPLazOCuV9Z1QbPeqrYSuE/edit?usp=sharing'>SRS document</a></li>
+    <li><a href='https://panoramic-bosworth-c39.notion.site/c95dc78e019e4f6cbad3bdd1f410bc87?v=e9027655fd6d4228b5dfbe8c9272f7b0'>Gantt chart</a></li>
+</ul>
+
+<h3 id='stack'>Tech stack</h3>
+The following technologies were used to build Eventron: <br><br>
+<table>
+  <tr>
+    <th>Technology</th>
+    <th>Use</th>
+  </tr>
+  <tr>
+    <td>Next.js</td>
+    <td>Web framework</td>
+  </tr>
+    <tr>
+    <td>TypeScript</td>
+    <td>Programming language</td>
+  </tr>
+    <tr>
+    <td>NextAuth</td>
+    <td>Authentication</td>
+  </tr>
+    <tr>
+    <td>TailwindCSS</td>
+    <td>Inline CSS utility</td>
+  </tr>
+  <tr>
+    <td>PostgreSQL</td>
+    <td>Database</td>
+  </tr>
+  <tr>
+    <td>Prisma</td>
+    <td>ORM</td>
+  </tr>
+</table>
