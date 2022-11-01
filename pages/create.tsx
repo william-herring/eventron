@@ -45,7 +45,7 @@ const Create: NextPage = () => {
             endDate: endDate,
             startTime: startTime,
             endTime: endTime,
-            community: community || 1,
+            community: community,
             organisers: organisers,
             location: location,
             attendeeLimit: attendeeLimit
