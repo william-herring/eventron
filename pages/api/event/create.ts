@@ -16,9 +16,12 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     end.setMinutes(parseInt(endTime[3] + endTime[4]))
 
     const organiserObjs: { username: string | null | undefined }[] = [{ username: session?.user?.name }]
-    organisers.forEach((u: string) => organiserObjs.push({
-        username: u
-    }))
+
+    if (organisers[0] !== '') {
+        organisers.forEach((u: string) => organiserObjs.push({
+            username: u
+        }))
+    }
 
     console.log(organiserObjs)
 

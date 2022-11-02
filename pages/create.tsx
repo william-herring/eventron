@@ -16,7 +16,7 @@ const Create: NextPage = () => {
     const [endDate, setEndDate] = useState('dd/mm/yyy')
     const [startTime, setStartTime] = useState('03:00')
     const [endTime, setEndTime] = useState('21:00')
-    const [community, setCommunity] = useState('')
+    const [community, setCommunity] = useState('General')
     const [organisers, setOrganisers] = useState([''])
     const [location, setLocation] = useState('Virtual')
     const [attendeeLimit, setAttendeeLimit] = useState(15)
