@@ -12,8 +12,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 const Login: NextPage<{ providers: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> }> = (props) => {
   const { query } = useRouter()
 
-  console.log(query.callbackUrl?.toString())
-
   return (
     <div>
         <Head>

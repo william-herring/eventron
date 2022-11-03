@@ -17,6 +17,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
     const organiserObjs: { username: string | null | undefined }[] = [{ username: session?.user?.name }]
 
+    // Map usernames to an object and append to list if arguments are provided
     if (organisers[0] !== '') {
         organisers.forEach((u: string) => organiserObjs.push({
             username: u
@@ -24,7 +25,8 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     }
 
     console.log(organiserObjs)
-
+    
+    // Create in database
     const result = await prisma.event.create({
         data: {
             title: title,

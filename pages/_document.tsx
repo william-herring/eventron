@@ -1,6 +1,8 @@
 import { Html, Head, Main, NextScript } from 'next/document'
 import React from 'react'
 
+// Document template to avoid writing the same code over and over again
+
 const Document: React.FC = () => {
     return (
         <Html>

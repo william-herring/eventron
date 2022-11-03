@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import prisma from '../lib/prisma';
 
 export const getStaticProps: GetStaticProps = async () => {
+    // Stats queries
     const totalUsers: number = await prisma.user.count()
     const totalCommunities: number = await prisma.community.count()
     const totalEvents: number = await prisma.event.count()
@@ -23,6 +24,8 @@ const Home: NextPage<{
   const { data: session, status } = useSession()
   const router = useRouter()
 
+  // This determines whether to show the dashboard or landing page, depending on whether the user is signed in or not.
+  // A loading indicator may also be shown
   if (status === "loading") {
     return <div className='flex w-screen h-screen justify-center items-center'>
             <Image width={80} height={80} src='/loading_spinner.svg' className='animate-spin' />

@@ -11,6 +11,7 @@ import prisma from "../lib/prisma"
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const session = await getSession({ req })
 
+    // This query selects all the events from communities the user is a part of
     const result = await prisma.user.findUnique({
         where: {
             email: session?.user?.email || ''

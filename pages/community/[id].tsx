@@ -43,6 +43,7 @@ const CommunityPage: NextPage<{ community: CommunityProps }> = (props) => {
     const { data: session, status } = useSession()
     const router = useRouter()
 
+    // Join community function
     const joinCommunity = async () => {
         const res = await fetch(`../api/community/join?id=${props.community.id}`, {
             method: 'PATCH',
@@ -51,6 +52,7 @@ const CommunityPage: NextPage<{ community: CommunityProps }> = (props) => {
         router.reload()
     }
 
+    // Leave community function
     const leaveCommunity = async () => {
         const res = await fetch(`../api/community/leave?id=${props.community.id}`, {
             method: 'PATCH',

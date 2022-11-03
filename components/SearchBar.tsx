@@ -8,6 +8,9 @@ const SearchBar: React.FC = () => {
 
     return (
         <div className='flex'>
+            {/*
+            Some CSS tricks used here to get the search icon showing up. Basically combining a div and a text input.
+            */}
             <div className='border-gray-400 border-2 border-r-0 rounded-l-full p-5 pr-0'>
                 <svg width="24px" height="24px" stroke-width="2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#a3a3a3"><path d="M15.5 15.5L19 19M5 11a6 6 0 1012 0 6 6 0 00-12 0z" stroke="#a3a3a3" stroke-width="2.04" stroke-linecap="round" stroke-linejoin="round"></path></svg>
             </div>

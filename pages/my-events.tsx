@@ -92,6 +92,7 @@ const Dashboard: NextPage<{ events: {
         return <div></div>
     }
 
+    // Basically just formatting dates because JavaScript is stupid and does not know how to build a good datetime API
     props.events.forEach((e) => calendarObjs?.push({
         id: e.id,
         title: e.title,
@@ -99,6 +100,7 @@ const Dashboard: NextPage<{ events: {
         end: new Date(e.endDate).toISOString()
     }))
 
+    // Custom event objects to be interpreted by calendar
     props.events.forEach((e) => {
         if (e.organisers.includes(session.user?.email || ''))
         organisedEvents.push({

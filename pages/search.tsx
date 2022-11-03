@@ -6,6 +6,8 @@ import { Community, Event, User } from "@prisma/client"
 import NavigationBar from "../components/NavigationBar"
 import SearchBar from "../components/SearchBar"
 
+// Search params are extracted from the query and then used to query the database dynamically
+
 interface SearchProps {
     events: Event[]
     users: User[]
@@ -27,6 +29,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
         where: { title: { contains: search, mode: 'insensitive' } }
     })
 
+    // TypeScript DateTime handling mess. Seriously, this module belongs in hell
     events.map(event => {
             // @ts-ignore
             event.startDate = event.startDate.toDateString()

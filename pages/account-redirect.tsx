@@ -37,6 +37,9 @@ const AccountRedirect: NextPage<AccountRedirectProps | null> = (props) => {
     const { data: session } = useSession()
     const { redirectUrl } = useRouter().query
 
+    // Figured out this trick on a previous project. Sometimes the OAuth API will validate later than the client recognises, so this redirect
+    // acts as an external validator.
+
     if (session) {
         Router.push('' + redirectUrl)
     }
